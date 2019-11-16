@@ -7,4 +7,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 
+int wrdcount(char *s);
+char **_strtok(char *str);
+
 #endif
