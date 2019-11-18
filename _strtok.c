@@ -1,76 +1,86 @@
 #include "orange.h"
-#include <stdlib.h>
 
 /**
- * wrdcount - counts the number of words in a string
- * @s: string to count
+ * _wcount - counts number of words
+ * @sw: string
  *
- * Return: int of number of words
+ * Return: int
  */
-int wrdcount(char *s)
+int _wcount(char *sw)
 {
-	int i, n = 0;
+	int l, wc;
 
-	for (i = 0; s[i]; i++)
+	l = 0, wc = 0;
+	if (*(sw + l) == ' ')
+		l++;
+	while (*(sw + l))
 	{
-		if (s[i] == ' ')
-		{
-			if (s[i + 1] != ' ' && s[i + 1] != '\0')
-				n++;
-		}
-		else if (i == 0)
-			n++;
-	}
-	n++;
-	return (n);
-}
-
-/**
- * _strtok - splits a string into words
- * @str: string to split
- *
- * Return: pointer to an array of strings
- */
-char **_strtok(char *str)
-{
-	int i, j, k, l, n = 0, wc = 0;
-	char **w;
-
-	if (str == NULL || *str == '\0')
-		return (NULL);
-	n = wrdcount(str);
-	if (n == 1)
-		return (NULL);
-	w = (char **)malloc(n * sizeof(char *));
-	if (w == NULL)
-		return (NULL);
-	w[n - 1] = NULL;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != ' ' && (i == 0 || str[i - 1] == ' '))
-		{
-			for (j = 1; str[i + j] != ' ' && str[i + j]; j++)
-				;
-			j++;
-			w[wc] = (char *)malloc(j * sizeof(char));
-			j--;
-			if (w[wc] == NULL)
-			{
-				for (k = 0; k < wc; k++)
-					free(w[k]);
-				free(w[n - 1]);
-				free(w);
-				return (NULL);
-			}
-			for (l = 0; l < j; l++)
-				w[wc][l] = str[i + l];
-			w[wc][l] = '\0';
+		if (*(sw + l) == ' ' && *(sw + l - 1) != ' ')
 			wc++;
-			i += j;
-		}
-		else
-			i++;
+		if (*(sw + l) != ' '  && *(sw + l + 1) == 0)
+			wc++;
+		l++;
 	}
-	return (w);
+	return (wc);
+}
+/**
+ * _trspace - Moves adress to remove trailig whitespaces
+ * @st: string
+ *
+ * Return: Pointer
+ */
+char *_trspace(char *st)
+{
+	while (*st == ' ')
+		st++;
+	return (st);
+}
+/**
+ * strtow - splits a string into words
+ * @str: string
+ *
+ * Return: Double Pointer
+ */
+char **strtow(char *str)
+{
+	char **s, *ts;
+	int l, l2, wc, i, j, fr, k, t;
+
+	if (str == NULL || *str == 0)
+		return (0);
+	fr = 0;
+	wc = _wcount(str);
+	if (wc == 0)
+		return (0);
+	s = malloc((wc + 1) * sizeof(char *));
+	if (s == 0)
+		return (0);
+	ts = _trspace(str);
+	for (i = 0; i < wc; i++)
+	{
+		l = 0;
+		while (*(ts + l) != ' ' && *(ts + l) != 0)
+			l++;
+		s[i] = malloc((l + 1) * sizeof(char));
+		if (s[i] == 0)
+		{
+			fr = 1;
+			break;
+		}
+		for (j = 0, l2 = 0; l2 < l; l2++, j++)
+			s[i][j] = *(ts + l2);
+		s[i][j] = '\0';
+		ts = _trspace(ts + l);
+	}
+	s[i] = NULL;
+	if (fr == 1)
+	{
+		for (k = 0; k <= i; k++)
+			free(s[k]);
+		free(s);
+	}
+    t = 0;
+    while(s[t])
+        printf("%s", s[t]);
+	return (s);
 }

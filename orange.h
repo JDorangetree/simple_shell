@@ -5,9 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <sys/types.h>
 
-int wrdcount(char *s);
-char **_strtok(char *str);
-
+char **strtow(char *str);
 #endif

@@ -10,13 +10,13 @@ int main (void)
     buffer = malloc(sizeof(char)* size_bufer);
     if(buffer == NULL)
         return(0);
-    while ((getline(&buffer, &size_bufer, stdin)) != -1)
+    while ((read = getline(&buffer, &size_bufer, stdin)) != -1)
     {
-        input_array = _strtok(buffer);
+        input_array = strtow(buffer);
         execve(input_array[0], input_array, NULL);
 
     }
     printf("$ ");
     free(buffer);
-    return(0);
+    return(read);
 }
