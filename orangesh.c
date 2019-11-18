@@ -1,6 +1,6 @@
 #include "orange.h"
 
-int main (char *argv)
+int main (char **argv)
 {
     char *buffer, **input_array;
     size_t size_bufer = 1;
@@ -24,7 +24,7 @@ int main (char *argv)
         if (pid_C == 0)
             exc = execve(input_array[0], input_array, NULL);
                 if (exc == -1)
-                    printf("%s: No such file or directory\n$", argv);
+                    printf("%s: No such file or directory\n$", argv[0]);
 
         else
         {
