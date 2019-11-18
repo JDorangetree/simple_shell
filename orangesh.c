@@ -14,7 +14,6 @@ int main (void)
     {
         input_array = strtow(buffer);
         execve(input_array[0], input_array, NULL);
-
     }
     printf("$ ");
     free(buffer);
