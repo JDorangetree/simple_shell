@@ -7,4 +7,5 @@
 #include <stdio.h>
 
 char **strtow(char *str);
+char **own_realloc(char **ptr, size_t *size);
 #endif
