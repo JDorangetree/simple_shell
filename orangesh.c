@@ -1,13 +1,15 @@
 #include "orange.h"
 
-int main (void)
+int main (int argc, char *argv[])
 {
+    (void)argc;
     char *buffer, *input_string, **array_to_execve;
     size_t size_bufer = 1, mcount = 10;
     ssize_t read;
     pid_t pid_C;
     int number, exc, i;
     char s[4] = " \n\t";
+    pid_t my_pid;
 
     printf("$ ");
     buffer = malloc(sizeof(char)* size_bufer);
@@ -45,6 +47,8 @@ int main (void)
         if (pid_C == 0)
         {
             exc = execve(array_to_execve[0], array_to_execve, NULL);
+            if(exc == -1)
+                printf("%u%s: No such file or directory\n$",my_pid = getpid(), argv[0]);
         }
         else
         {
