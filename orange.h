@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <signal.h>
 
 char **strtow(char *str);
 char **own_realloc(char **ptr, size_t *size);
