@@ -1,6 +1,7 @@
 #include "orange.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+
 void ctrl_c(int signum)
 {
     (void) signum;
@@ -10,39 +11,38 @@ void ctrl_c(int signum)
 void own_free(char **source)
 {
 	int i = 0;
-	while (source[i])
-			free(source[i++]);
-	free(source);
+	while (i <= 9)
+    {
+			free(source[i]);
+            i++;
+    }
+    free(source);
 }
 
 int main (int argc, char *argv[])
 {
-	char *buffer; 
+	char *buffer = NULL; 
 	char **array_to_execve; 
 	char s[4] = " \n\t";
-	size_t size_bufer = 1, mcount = 1024, i;
+	size_t size_bufer, mcount = 10, i;
 	ssize_t read;
-	pid_t pid_C, number;
-
+	pid_t pid_C;
 	int exc;
 
 	(void) argc;
     signal(SIGINT, ctrl_c);
 	printf("$ ");
-	buffer = malloc(sizeof(char)* size_bufer);
-	if(buffer == NULL)
-		return(0);
 	while ((read = getline(&buffer, &size_bufer, stdin)) != -1)
 	{   
         if (read == EOF)
         {
             free (buffer);
-            return(0);
         }
-		pid_C = fork();
+        pid_C = fork();
 		if (pid_C == -1)
 		{
 			perror("Error:");
+            free(buffer);
 			return(1);
 		}
 		array_to_execve = malloc (sizeof(char *) * mcount);
@@ -51,26 +51,27 @@ int main (int argc, char *argv[])
 				perror("Fatal Error");
 				return(1);
 			}
-		i = 0;	
-		while( (array_to_execve[i] = strtok(buffer, s)) != NULL)
+		i = 0;
+		while((array_to_execve[i] = strtok(buffer, s)) != NULL)
 		{
 			i++;
 			buffer = NULL;
+         
 		}
 		if (pid_C == 0)
 		{
 			exc = execve(array_to_execve[0], array_to_execve, NULL);
 			if(exc == -1)
+            {
 				printf("%s: No such file or directory\n$ ", argv[0]);
-            own_free(array_to_execve);
-		}
+            }
+	    }
 		else
 		{
-			wait(&number);
+			wait(NULL);
 			printf("$ ");
-            own_free(array_to_execve);
 		}
 	}
-	free(buffer);
-	return(read);
+    free(buffer);
+	return(0);
 }
