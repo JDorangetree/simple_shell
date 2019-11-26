@@ -1,12 +1,15 @@
 #ifndef ORANGE_H
 #define ORANGE_H
 
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <signal.h>
+#include <errno.h>
 
-char **strtow(char *str);
-char **own_realloc(char **ptr, size_t *size);
+int word_count(char *str);
+
 #endif

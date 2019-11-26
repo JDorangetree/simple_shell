@@ -22,12 +22,12 @@ void own_free(char **source)
 int main (int argc, char *argv[])
 {
 	char *buffer = NULL; 
-	char **array_to_execve; 
+	char **array_to_execve;
 	char s[4] = " \n\t";
-	size_t size_bufer, mcount = 10, i;
+	size_t size_bufer,i;
+    int wc;
 	ssize_t read;
 	pid_t pid_C;
-	int exc;
 
 	(void) argc;
     signal(SIGINT, ctrl_c);
@@ -38,14 +38,8 @@ int main (int argc, char *argv[])
         {
             free (buffer);
         }
-        pid_C = fork();
-		if (pid_C == -1)
-		{
-			perror("Error:");
-            free(buffer);
-			return(1);
-		}
-		array_to_execve = malloc (sizeof(char *) * mcount);
+        wc = word_count(buffer);
+		array_to_execve = malloc (sizeof(char *) * wc);
 		if (array_to_execve == NULL)
 			{
 				perror("Fatal Error");
@@ -58,20 +52,29 @@ int main (int argc, char *argv[])
 			buffer = NULL;
          
 		}
-		if (pid_C == 0)
-		{
-			exc = execve(array_to_execve[0], array_to_execve, NULL);
-			if(exc == -1)
-            {
-				printf("%s: No such file or directory\n$ ", argv[0]);
+        if (access(array_to_execve[0], X_OK) == 0)
+        {
+            pid_C = fork();
+            if (pid_C == -1)
+            {   
+                free(buffer);
+                perror("Error:");
             }
-	    }
-		else
+            if (pid_C == 0)
+               execve(array_to_execve[0], array_to_execve, NULL);
+               printf("$ ");
+               wait(NULL);
+        }
+        else
 		{
-			wait(NULL);
-			printf("$ ");
+            if (array_to_execve[0] == NULL)
+                printf("$ ");
+            else
+                printf("%s: No such file or directory\n$ ", argv[0]);
 		}
 	}
     free(buffer);
 	return(0);
 }
+
+
