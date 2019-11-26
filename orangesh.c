@@ -22,7 +22,7 @@ int main (int argc, char *argv[])
 	char **array_to_execve;
 	char s[4] = " \n\t";
 	size_t size_bufer,i;
-	int wc;
+	int wc, count = 0;
 	ssize_t read;
 	pid_t pid_C;
 
@@ -52,29 +52,33 @@ int main (int argc, char *argv[])
 			buffer = NULL;
 		}
 		array_to_execve[i] = NULL;
+		count++;
 		if (access(array_to_execve[0], X_OK) == 0)
 		{
 			pid_C = fork();
 			if (pid_C == -1)
 			{
-				own_free(array_to_execve);
+				free(array_to_execve);
 				perror("Error:");
 			}
 			if (pid_C == 0)
 			{
 				execve(array_to_execve[0], array_to_execve, NULL);
-				own_free(array_to_execve);
+				free(array_to_execve);
 			}
-			wait(NULL);
-			if (isatty(STDIN_FILENO))
-				printf("$ ");
+			else
+			{
+				wait(NULL);
+				if (isatty(STDIN_FILENO))
+					printf("$ ");
+			}
 		}
 		else
 		{
-			printf("%s: %i: %s: not found\n", argv[0], 1, array_to_execve[0]);
+			printf("%s: %i: %s: not found\n", argv[0], count, array_to_execve[0]);
 			if (isatty(STDIN_FILENO))
 				printf("$ ");
-			own_free(array_to_execve);
+			free(array_to_execve);
 		}
 	}
 	free(buffer);
