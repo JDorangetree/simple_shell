@@ -2,85 +2,65 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+/**
+ * ctrl_c - manage control c signal
+ * @signum: void variable
+ * Return: void
+ */
+
 void ctrl_c(int signum)
 {
 	(void) signum;
 	write(STDOUT_FILENO, "\n", 1);
 	write(STDOUT_FILENO, "$ ", 2);
 }
-void own_free(char **source)
-{
-	int i = 0;
-	while (source[i])
-		free(source[i++]);
-	free(source);
-}
 
-int main (int argc, char *argv[])
+/**
+ * main - initializes the shell
+ * @argc: number of arguments
+ * @argv: array of arguments
+ * Return: 0 on succes.
+ */
+int main(int argc, char *argv[])
 {
-	char *buffer = NULL;
-	char **array_to_execve;
-	char s[4] = " \n\t";
-	size_t size_bufer,i;
-	int wc, count = 0;
-	ssize_t read;
+	char *buffer = NULL, **array_to_execve;
+	size_t size_bufer;
+	int wc, count = 0, read;
 	pid_t pid_C;
 
 	(void) argc;
 	signal(SIGINT, ctrl_c);
 	if (isatty(STDIN_FILENO))
-		printf("$ ");
+		write(STDOUT_FILENO, "$ ", 2);
 	while ((read = getline(&buffer, &size_bufer, stdin)) != -1)
 	{
 		if (read == EOF)
 		{
-			free (buffer);
-			return(0);
+			free(buffer);
+			return (0);
 		}
 		wc = word_count(buffer);
-		array_to_execve = malloc (sizeof(char *) * wc + 1);
-		if (array_to_execve == NULL)
-			{
-				free(buffer);
-				perror("Fatal Error");
-				return(-1);
-			}
-		i = 0;
-		while((array_to_execve[i] = strtok(buffer, s)) != NULL)
-		{
-			i++;
-			buffer = NULL;
-		}
-		array_to_execve[i] = NULL;
+		array_to_execve = tokenizer(wc, buffer);
 		count++;
 		if (access(array_to_execve[0], X_OK) == 0)
 		{
 			pid_C = fork();
 			if (pid_C == -1)
-			{
-				free(array_to_execve);
 				perror("Error:");
-			}
 			if (pid_C == 0)
-			{
 				execve(array_to_execve[0], array_to_execve, NULL);
-				free(array_to_execve);
-			}
 			else
 			{
 				wait(NULL);
 				if (isatty(STDIN_FILENO))
-					printf("$ ");
+					write(STDOUT_FILENO, "$ ", 2);
 			}
 		}
 		else
 		{
-			printf("%s: %i: %s: not found\n", argv[0], count, array_to_execve[0]);
-			if (isatty(STDIN_FILENO))
-				printf("$ ");
-			free(array_to_execve);
+			prerror(argv, array_to_execve, count);
 		}
 	}
 	free(buffer);
-	return(0);
+	return (0);
 }
