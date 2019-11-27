@@ -1,7 +1,7 @@
 #include "orange.h"
 
 /**
- * _putchar - writes the character c to stdout
+ * _putchar - writes a character
  * @c: The character to print
  *
  * Return: On success 1.
@@ -14,7 +14,7 @@ int _putchar(char c)
 
 
 /**
- * print_n - print number n with putchar
+ * print_n - evaluate sign into an integer
  *
  * @n: number to print
  *
@@ -31,9 +31,9 @@ void print_n(int n)
 		print_unsigned_int(n);
 }
 /**
- * print_unsigned_int - prints an unsigned integer
+ * print_unsigned_int - prints an integer
  *
- * @n: an unsigned integer to print
+ * @n: integer to print
  *
  * Return: always void
  */

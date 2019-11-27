@@ -1,7 +1,7 @@
 #include "orange.h"
 
 /**
- * tokenizer - custom function to free an array of pointer
+ * tokenizer - custom function to tokenize an array of pointer
  * @buffer: array to tokenize
  * @array_to_execve: array to execve
  * Return: words tokenized double pointer
