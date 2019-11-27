@@ -43,28 +43,28 @@ int main(int argc, char *argv[])
 		array_to_execve = malloc(sizeof(char *) * (wc + 1));
 		tokenizer(buffer, array_to_execve);
 		count++;
-		if (access(array_to_execve[0], X_OK) == 0)
-		{
-			pid_C = fork();
-			if (pid_C == -1)
-				perror("Error:");
-			if (pid_C == 0)
-				execve(array_to_execve[0], array_to_execve, NULL);
-			else
-			{
-				wait(NULL);
-				if (isatty(STDIN_FILENO))
-					write(STDOUT_FILENO, "$ ", 2);
-			}
-		}
+        if (array_to_execve[0] != NULL)
+        {
+		    if (access(array_to_execve[0], X_OK) == 0)
+		    {
+			    pid_C = fork();
+			    if (pid_C == -1)
+				    perror("Error:");
+			    if (pid_C == 0)
+				    execve(array_to_execve[0], array_to_execve, NULL);
+			    else
+			    {
+				    wait(NULL);
+				    if (isatty(STDIN_FILENO))
+					    write(STDOUT_FILENO, "$ ", 2);
+			    }
+		    }
+        }
+		else if (array_to_execve[0] == NULL)
+				write(STDOUT_FILENO, "$ ", 2);
 		else
-            if (array_to_execve[0] == NULL)
-                {
-                    write(STDOUT_FILENO,"$ ", 2);
-                }
-            else
-			    prerror(argv, array_to_execve, count);
-		    free(array_to_execve);
+			prerror(argv, array_to_execve, count);
+		free(array_to_execve);
 	}
 	free(buffer);
 	return (0);
