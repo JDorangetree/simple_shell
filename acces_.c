@@ -5,10 +5,9 @@
  *
  **/
 
-void access_(char **arr)
+void access_(char **arr, int *n)
 {
 	pid_t pid_C;
-	int status = 0;
 
 	pid_C = fork();
 	if (pid_C == -1)
@@ -17,7 +16,7 @@ void access_(char **arr)
 		execve(arr[0], arr, NULL);
 	else
 	{
-		wait(&status);
+		wait(n);
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
 	}

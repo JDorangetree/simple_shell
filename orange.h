@@ -22,6 +22,7 @@ void print_n(int n);
 void prerror(char **argv, char **array, int count);
 void own_free(char **source);
 void sign_eof(char *buffer, int read);
-void access_(char **arr);
+void access_(char **arr, int *n);
+void exit_(char *argv, int n);
 
 #endif

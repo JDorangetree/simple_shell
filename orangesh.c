@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 {
 	char *buffer = NULL, **array_to_execve;
 	size_t size_bufer;
-	int wc, count = 0, read;
+	int wc, count = 0, read, status = 0;
 
 	(void) argc;
 	signal(SIGINT, ctrl_c);
@@ -38,12 +38,13 @@ int main(int argc, char *argv[])
 			free(buffer);
 			return (0);
 		}
+		exit_(buffer, status);
 		wc = word_count(buffer);
 		array_to_execve = malloc(sizeof(char *) * (wc + 1));
 		tokenizer(buffer, array_to_execve);
 		count++;
 		if (array_to_execve[0] != NULL && access(array_to_execve[0], X_OK) == 0)
-			access_(array_to_execve);
+			access_(array_to_execve, &status);
 		else if (array_to_execve[0] == NULL)
 		{
 			if (isatty(STDIN_FILENO))
