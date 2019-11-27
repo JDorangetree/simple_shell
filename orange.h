@@ -21,5 +21,7 @@ void print_unsigned_int(int n);
 void print_n(int n);
 void prerror(char **argv, char **array, int count);
 void own_free(char **source);
+void sign_eof(char *buffer, int read);
+void access_(char **arr);
 
 #endif
