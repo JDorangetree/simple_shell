@@ -45,7 +45,10 @@ int main(int argc, char *argv[])
 		if (array_to_execve[0] != NULL && access(array_to_execve[0], X_OK) == 0)
 			access_(array_to_execve);
 		else if (array_to_execve[0] == NULL)
-			write(STDOUT_FILENO, "$ ", 2);
+		{
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "$ ", 2);
+		}
 		else
 			prerror(argv, array_to_execve, count);
 		free(array_to_execve);
