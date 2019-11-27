@@ -43,7 +43,7 @@ int main (int argc, char *argv[])
 			{
 				free(buffer);
 				perror("Fatal Error");
-				return(1);
+				return(-1);
 			}
 		i = 0;
 		while((array_to_execve[i] = strtok(buffer, s)) != NULL)
