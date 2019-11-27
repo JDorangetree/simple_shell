@@ -15,10 +15,11 @@
 
 int word_count(char *str);
 int _strlen(char *str);
-char **tokenizer(int size, char *buffer);
+void tokenizer(char *buffer, char **array_to_execve);
 int _putchar(char c);
 void print_unsigned_int(int n);
 void print_n(int n);
 void prerror(char **argv, char **array, int count);
+void own_free(char **source);
 
 #endif
