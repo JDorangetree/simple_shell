@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
 	char *buffer = NULL, **array_to_execve;
 	size_t size_bufer;
 	int wc, count = 0, read;
-	pid_t pid_C;
 
 	(void) argc;
 	signal(SIGINT, ctrl_c);
@@ -43,25 +42,10 @@ int main(int argc, char *argv[])
 		array_to_execve = malloc(sizeof(char *) * (wc + 1));
 		tokenizer(buffer, array_to_execve);
 		count++;
-        if (array_to_execve[0] != NULL)
-        {
-		    if (access(array_to_execve[0], X_OK) == 0)
-		    {
-			    pid_C = fork();
-			    if (pid_C == -1)
-				    perror("Error:");
-			    if (pid_C == 0)
-				    execve(array_to_execve[0], array_to_execve, NULL);
-			    else
-			    {
-				    wait(NULL);
-				    if (isatty(STDIN_FILENO))
-					    write(STDOUT_FILENO, "$ ", 2);
-			    }
-		    }
-        }
+		if (array_to_execve[0] != NULL && access(array_to_execve[0], X_OK) == 0)
+			access_(array_to_execve);
 		else if (array_to_execve[0] == NULL)
-				write(STDOUT_FILENO, "$ ", 2);
+			write(STDOUT_FILENO, "$ ", 2);
 		else
 			prerror(argv, array_to_execve, count);
 		free(array_to_execve);
