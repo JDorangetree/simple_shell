@@ -40,7 +40,8 @@ int main(int argc, char *argv[])
 			return (0);
 		}
 		wc = word_count(buffer);
-		array_to_execve = tokenizer(wc, buffer);
+		array_to_execve = malloc(sizeof(char *) * (wc + 1));
+		tokenizer(buffer, array_to_execve);
 		count++;
 		if (access(array_to_execve[0], X_OK) == 0)
 		{
@@ -57,9 +58,8 @@ int main(int argc, char *argv[])
 			}
 		}
 		else
-		{
 			prerror(argv, array_to_execve, count);
-		}
+		free(array_to_execve);
 	}
 	free(buffer);
 	return (0);
