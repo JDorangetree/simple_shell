@@ -58,8 +58,13 @@ int main(int argc, char *argv[])
 			}
 		}
 		else
-			prerror(argv, array_to_execve, count);
-		free(array_to_execve);
+            if (array_to_execve[0] == NULL)
+                {
+                    write(STDOUT_FILENO,"$ ", 2);
+                }
+            else
+			    prerror(argv, array_to_execve, count);
+		    free(array_to_execve);
 	}
 	free(buffer);
 	return (0);
