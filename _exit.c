@@ -10,6 +10,7 @@ void exit_(char *argv, int n)
 {
 	char *str = "exit";
 	int i = 0;
+
 	while (argv[i] > 'a' && argv[i] < 'z' && argv[i] == str[i])
 		i++;
 	if (i == 4)

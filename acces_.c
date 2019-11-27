@@ -2,6 +2,7 @@
 /**
  * access_ - writes the character c to stdout
  * @arr: array to acces
+ * @n: status code
  *
  **/
 
