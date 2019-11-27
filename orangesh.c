@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 		array_to_execve = malloc(sizeof(char *) * (wc + 1));
 		tokenizer(buffer, array_to_execve);
 		count++;
-		if (array_to_execve[0] != NULL && access(array_to_execve[0],X_OK) == 0)
+		if (array_to_execve[0] != NULL && access(array_to_execve[0], X_OK) == 0)
 			access_(array_to_execve);
 		else if (array_to_execve[0] == NULL)
 			write(STDOUT_FILENO, "$ ", 2);
