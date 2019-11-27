@@ -19,4 +19,13 @@ void tokenizer(char *buffer, char **array_to_execve)
 		buffer = NULL;
 	}
 	array_to_execve[i] = NULL;
+	i = 0;
+	while (array_to_execve[i])
+	{
+		if (array_to_execve[i][0] == '#')
+		{
+			array_to_execve[i] = NULL;
+		}
+		i++;
+	}
 }
