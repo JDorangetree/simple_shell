@@ -31,6 +31,7 @@ This simple_shell is meant to intepretate simple commands as ```sh``` does, with
 ### Features
 
 
+
 - [x] handles command line arguments
 - [x] uses exit built-in
 - [x] shell continues upon Crtl+C
