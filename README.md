@@ -32,7 +32,7 @@ This simple_shell is meant to intepretate simple commands as ```sh``` does, with
 
 - [x] handles command line arguments
 - [x] uses exit built-in
-- [x] shell continues upon Crtl+C (**^C**)
+- [x] shell continues upon Crtl+C
 - [x] handles comments (#)
 - [x] Interactive and non-interactive mode.
 
