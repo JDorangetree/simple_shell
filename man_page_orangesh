@@ -1,0 +1,43 @@
+.TH ORANGESH "1" "28 Noviembre 19" "Simple Shell Manual Page"
+
+.SH NAME
+.B orangesh
+- simple shell project
+.PP
+
+.SH SYNOPSIS
+.B ./orangesh
+.PP
+
+.SH Description
+orangesh is an sh-compatible command language interpreter that executes 
+commands read from the standard input and can be used interactively.
+
+.SH Overview
+is a program that takes commands from the keyboard and gives them to the operating system to perform.
+Commands can be typed directly to the running shell or can be piped in.
+
+.SH Invocation
+interactive shell is one started without non-option arguments like this './hsh'. 
+A noninteractive shell is one started by sending commands to the standard input using pipelines like this 'echo "/bin/ls -l" | ./hsh'.
+
+.SH BUILT-IN COMMANDS
+.RS information on built-in commands
+.B  exit
+- Shell process is terminated, and exit from it.
+
+.SH Command Exit Status
+A command exits with zero for success, any other value indicates failure
+or error.
+
+.SH PROMPTING
+When executing interactively,  shelley displays  the  primary  prompt when it is ready to read a command.
+
+
+.SH BUGS
+No known bugs.
+
+.SH AUTHORS
+Juan Pablo Zuluaga <1267@holbertonschool.com>
+.PP
+Julian Naranjo <1289@holbertonschool.com>
