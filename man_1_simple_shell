@@ -10,7 +10,7 @@
 .PP
 
 .SH Description
-orangesh is an sh-compatible command language interpreter that executes 
+orangesh is an sh-compatible command language interpreter that executes
 commands read from the standard input and can be used interactively.
 
 .SH Overview
